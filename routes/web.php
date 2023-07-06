@@ -62,9 +62,9 @@ Route::post('/courses/{course}/topics', function (Course $course, Request $reque
     //     'topic_id' => ['exists:topics,id']
     // ]);
 
-    $course->topics()->attach(Topic::findOrFail($request->topic_id), [
+    $course->topics()->syncWithoutDetaching([$request->topic_id => [
         'version' => $request->version
-    ]);
+    ]]);
 })
     ->name('courses.topics.store');
 
@@ -88,5 +88,14 @@ Route::get('/topics/{topic:slug}', function (Topic $topic, Request $request) {
     return view('topics.show', [
         'topic' => $topic,
         // 'courses' => $courses
+    ]);
+});
+
+Route::get('/sync', function () {
+    $course = Course::find(1);
+
+    $course->topics()->syncWithoutDetaching([
+        1 => ['version' => '10'],
+        2 => ['version' => '9'],
     ]);
 });
