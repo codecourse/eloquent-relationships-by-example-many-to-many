@@ -33,6 +33,22 @@ Route::get('/attach', function () {
     $course->topics()->attach($topic);
 });
 
+Route::get('/attach-many', function () {
+    $course = Course::find(2); // Learn Inertia
+    // $topics = Topic::get();
+
+    $course->topics()->attach([1, 2, 3, 4]);
+    // $course->topics()->attach($topics);
+});
+
+Route::get('/detach-many', function () {
+    $course = Course::find(2); // Learn Inertia
+    $topics = Topic::get();
+
+    // $course->topics()->detach([3, 4]);
+    $course->topics()->detach($topics);
+});
+
 Route::get('/courses/{course}/topics', function (Course $course, Request $request) {
     return view('courses.topics', [
         'topics' => Topic::get(),
