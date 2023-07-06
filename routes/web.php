@@ -1,6 +1,8 @@
 <?php
 
 use App\Models\Course;
+use App\Models\Topic;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -23,3 +25,27 @@ Route::get('/', function () {
         'courses' => $courses
     ]);
 });
+
+Route::get('/attach', function () {
+    $course = Course::find(2); // Learn Inertia
+    $topic = Topic::find(1); // Laravel
+
+    $course->topics()->attach($topic);
+});
+
+Route::get('/courses/{course}/topics', function (Course $course, Request $request) {
+    return view('courses.topics', [
+        'topics' => Topic::get(),
+        'course' => $course
+    ]);
+});
+
+Route::post('/courses/{course}/topics', function (Course $course, Request $request) {
+    // You would do this in your controller
+    // $this->validate($request, [
+    //     'topic_id' => ['exists:topics,id']
+    // ]);
+
+    $course->topics()->attach(Topic::findOrFail($request->topic_id));
+})
+    ->name('courses.topics.store');
