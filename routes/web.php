@@ -62,7 +62,9 @@ Route::post('/courses/{course}/topics', function (Course $course, Request $reque
     //     'topic_id' => ['exists:topics,id']
     // ]);
 
-    $course->topics()->attach(Topic::findOrFail($request->topic_id));
+    $course->topics()->attach(Topic::findOrFail($request->topic_id), [
+        'version' => $request->version
+    ]);
 })
     ->name('courses.topics.store');
 

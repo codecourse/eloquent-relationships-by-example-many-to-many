@@ -11,6 +11,8 @@ class Course extends Model
 
     public function topics()
     {
-        return $this->belongsToMany(Topic::class);
+        return $this->belongsToMany(Topic::class)
+            ->withPivot(['version'])
+            ->withTimestamps();
     }
 }

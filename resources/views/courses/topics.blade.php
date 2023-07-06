@@ -6,5 +6,6 @@
             <option value="{{ $topic->id }}">{{ $topic->title }}</option>
         @endforeach
     </select>
+    <input type="text" name="version">
     <button type="submit">Attach</button>
 </form>
