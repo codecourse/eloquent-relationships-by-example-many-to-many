@@ -72,3 +72,11 @@ Route::get('/detach', function () {
 
     $course->topics()->detach($topic);
 });
+
+Route::get('/topics/{topic:slug}', function (Topic $topic) {
+    $topic->load('courses.topics');
+
+    return view('topics.show', [
+        'topic' => $topic
+    ]);
+});
