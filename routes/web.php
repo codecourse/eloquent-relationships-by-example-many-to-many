@@ -75,10 +75,18 @@ Route::get('/detach', function () {
     $course->topics()->detach($topic);
 });
 
-Route::get('/topics/{topic:slug}', function (Topic $topic) {
-    $topic->load('courses.topics');
+Route::get('/topics/{topic:slug}', function (Topic $topic, Request $request) {
+    // $courses = $topic->courses()->with('topics')->wherePivot('version', '=', $request->version)->get();
+
+    $topic->load([
+        'courses' => function ($query) use ($request) {
+            $query->with('topics')
+                ->wherePivot('version', '=', $request->version);
+        }
+    ]);
 
     return view('topics.show', [
-        'topic' => $topic
+        'topic' => $topic,
+        // 'courses' => $courses
     ]);
 });
