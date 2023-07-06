@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -14,5 +15,11 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('welcome');
+    $courses = Course::latest()->get();
+
+    // eager loading
+
+    return view('courses.index', [
+        'courses' => $courses
+    ]);
 });
