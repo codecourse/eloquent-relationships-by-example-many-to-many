@@ -49,3 +49,10 @@ Route::post('/courses/{course}/topics', function (Course $course, Request $reque
     $course->topics()->attach(Topic::findOrFail($request->topic_id));
 })
     ->name('courses.topics.store');
+
+Route::get('/detach', function () {
+    $course = Course::find(2); // Learn Inertia
+    $topic = Topic::find(2); // Laravel
+
+    $course->topics()->detach($topic);
+});
