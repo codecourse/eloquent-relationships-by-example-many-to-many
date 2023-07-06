@@ -17,7 +17,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    $courses = Course::latest()->get();
+    $courses = Course::with('topics')->latest()->get();
 
     // eager loading
 
